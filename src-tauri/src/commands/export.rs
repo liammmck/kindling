@@ -8,6 +8,7 @@ use crate::models::{AppSettings, Beat, Chapter, Project, Scene, SnapshotTrigger}
 use chrono::Utc;
 use docx_rs::*;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::io::Write;
@@ -450,6 +451,161 @@ fn strip_html(html: &str) -> String {
         .filter(|l| !l.is_empty())
         .collect::<Vec<_>>()
         .join("\n\n")
+}
+
+fn is_tiptap_doc(value: &Value) -> bool {
+    value
+        .get("type")
+        .and_then(Value::as_str)
+        .is_some_and(|t| t == "doc")
+        && value.get("content").is_some_and(|c| c.is_array())
+}
+
+fn escape_html_text(text: &str) -> String {
+    let mut out = String::with_capacity(text.len());
+    for ch in text.chars() {
+        match ch {
+            '&' => out.push_str("&amp;"),
+            '<' => out.push_str("&lt;"),
+            '>' => out.push_str("&gt;"),
+            '"' => out.push_str("&quot;"),
+            '\'' => out.push_str("&#39;"),
+            _ => out.push(ch),
+        }
+    }
+    out
+}
+
+fn render_tiptap_text_node(text: &str, marks: Option<&Vec<Value>>) -> String {
+    let mut out = escape_html_text(text);
+    if let Some(marks) = marks {
+        for mark in marks {
+            let mark_type = mark.get("type").and_then(Value::as_str).unwrap_or_default();
+            match mark_type {
+                "bold" => out = format!("<strong>{}</strong>", out),
+                "italic" => out = format!("<em>{}</em>", out),
+                "underline" => out = format!("<u>{}</u>", out),
+                "code" => out = format!("<code>{}</code>", out),
+                _ => {}
+            }
+        }
+    }
+    out
+}
+
+fn tiptap_node_to_html(node: &Value, out: &mut String) {
+    let node_type = node.get("type").and_then(Value::as_str).unwrap_or_default();
+
+    if node_type == "outlineSentence" {
+        return;
+    }
+
+    match node_type {
+        "doc" => {
+            if let Some(children) = node.get("content").and_then(Value::as_array) {
+                for child in children {
+                    tiptap_node_to_html(child, out);
+                }
+            }
+        }
+        "paragraph" => {
+            out.push_str("<p>");
+            if let Some(children) = node.get("content").and_then(Value::as_array) {
+                for child in children {
+                    tiptap_node_to_html(child, out);
+                }
+            }
+            out.push_str("</p>");
+        }
+        "blockquote" => {
+            out.push_str("<blockquote>");
+            if let Some(children) = node.get("content").and_then(Value::as_array) {
+                for child in children {
+                    tiptap_node_to_html(child, out);
+                }
+            }
+            out.push_str("</blockquote>");
+        }
+        "hardBreak" => {
+            out.push_str("<br />");
+        }
+        "text" => {
+            let text = node.get("text").and_then(Value::as_str).unwrap_or_default();
+            let marks = node.get("marks").and_then(Value::as_array).map(|v| {
+                v.iter()
+                    .cloned()
+                    .collect::<Vec<Value>>()
+            });
+            out.push_str(&render_tiptap_text_node(text, marks.as_ref()));
+        }
+        "outlineSection" | "outlineTopic" => {
+            let mut text = String::new();
+            if let Some(children) = node.get("content").and_then(Value::as_array) {
+                for child in children {
+                    if child.get("type").and_then(Value::as_str) == Some("text") {
+                        if let Some(t) = child.get("text").and_then(Value::as_str) {
+                            text.push_str(t);
+                        }
+                    }
+                }
+            }
+            let text = text.trim();
+            if !text.is_empty() {
+                out.push_str("<p><strong>");
+                out.push_str(&escape_html_text(text));
+                out.push_str("</strong></p>");
+            }
+        }
+        _ => {
+            if let Some(children) = node.get("content").and_then(Value::as_array) {
+                for child in children {
+                    tiptap_node_to_html(child, out);
+                }
+            }
+        }
+    }
+}
+
+fn prose_to_html_for_export(prose: &str) -> String {
+    if prose.trim().is_empty() {
+        return String::new();
+    }
+    if let Ok(value) = serde_json::from_str::<Value>(prose) {
+        if is_tiptap_doc(&value) {
+            let mut out = String::new();
+            tiptap_node_to_html(&value, &mut out);
+            return out;
+        }
+    }
+    prose.to_string()
+}
+
+fn count_words_in_tiptap_doc_draft(value: &Value) -> usize {
+    fn walk(node: &Value, in_outline: bool, out: &mut String) {
+        let node_type = node.get("type").and_then(Value::as_str).unwrap_or_default();
+        let next_in_outline = in_outline
+            || node_type == "outlineSection"
+            || node_type == "outlineTopic"
+            || node_type == "outlineSentence";
+
+        if node_type == "text" && !next_in_outline {
+            if let Some(text) = node.get("text").and_then(Value::as_str) {
+                out.push_str(text);
+                out.push(' ');
+            }
+            return;
+        }
+
+        if let Some(children) = node.get("content").and_then(Value::as_array) {
+            for child in children {
+                walk(child, next_in_outline, out);
+            }
+        }
+    }
+
+    let mut text = String::new();
+    walk(value, false, &mut text);
+    count_words(&text)
 }
 
 /// A text run with formatting information for DOCX/EPUB export
@@ -1121,6 +1277,9 @@ fn calculate_project_word_count(
     conn: &rusqlite::Connection,
     project_uuid: &Uuid,
 ) -> Result<usize, String> {
+    let project = db::queries::get_project(conn, project_uuid)
+        .map_err(|e| e.to_string())?
+        .ok_or_else(|| "Project not found".to_string())?;
     let chapters = db::queries::get_chapters(conn, project_uuid).map_err(|e| e.to_string())?;
 
     let mut total_words = 0;
@@ -1130,6 +1289,22 @@ fn calculate_project_word_count(
 
         for scene in scenes.iter().filter(|s| !s.archived) {
             let beats = db::queries::get_beats(conn, &scene.id).map_err(|e| e.to_string())?;
+
+            if project.project_type == "essay" || beats.is_empty() {
+                if let Some(ref prose) = scene.prose {
+                    if !prose.trim().is_empty() {
+                        if let Ok(value) = serde_json::from_str::<Value>(prose) {
+                            if is_tiptap_doc(&value) {
+                                total_words += count_words_in_tiptap_doc_draft(&value);
+                            } else {
+                                total_words += count_words(&strip_html(prose));
+                            }
+                        } else {
+                            total_words += count_words(&strip_html(prose));
+                        }
+                    }
+                }
+            }
 
             for beat in &beats {
                 if let Some(ref prose) = beat.prose {

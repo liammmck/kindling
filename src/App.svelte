@@ -21,6 +21,7 @@
   import GuidanceOverlay from "./lib/components/GuidanceOverlay.svelte";
   import CommandPalette from "./lib/components/CommandPalette.svelte";
   import UpdateBanner from "./lib/components/UpdateBanner.svelte";
+  import EssayWriter from "./lib/components/EssayWriter.svelte";
   import { checkForUpdate } from "./lib/updater";
   import NewProjectDialog from "./lib/components/NewProjectDialog.svelte";
   import { COMMAND_DEFS } from "./lib/commands";
@@ -290,9 +291,13 @@
 
 <main class="flex h-screen w-screen overflow-hidden bg-bg-primary">
   {#if currentProject.value}
-    <Sidebar />
-    <ScenePanel />
-    <ReferencesPanel />
+    {#if currentProject.value.project_type === "essay"}
+      <EssayWriter />
+    {:else}
+      <Sidebar />
+      <ScenePanel />
+      <ReferencesPanel />
+    {/if}
   {:else}
     <StartScreen
       {recentProjects}

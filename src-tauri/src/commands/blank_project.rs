@@ -36,27 +36,27 @@ pub async fn create_blank_project(
         description: None,
         word_target: None,
         reference_types: Project::default_reference_types(),
-        project_type: Project::default_project_type(),
+        project_type: "essay".to_string(),
         target_page_count: None,
     };
 
     let chapter = Chapter {
         id: chapter_id,
         project_id,
-        title: "Chapter 1".to_string(),
+        title: "Section 1".to_string(),
         position: 0,
         source_id: None,
         archived: false,
         locked: false,
         is_part: false,
         synopsis: None,
-        planning_status: PlanningStatus::Undefined,
+        planning_status: PlanningStatus::Fixed,
     };
 
     let scene = Scene {
         id: Uuid::new_v4(),
         chapter_id,
-        title: "Scene 1".to_string(),
+        title: "Topic 1".to_string(),
         synopsis: None,
         prose: None,
         position: 0,
@@ -65,8 +65,8 @@ pub async fn create_blank_project(
         locked: false,
         scene_type: SceneType::Normal,
         scene_status: SceneStatus::Draft,
-        planning_status: PlanningStatus::Undefined,
-        editor_mode: EditorMode::Beat,
+        planning_status: PlanningStatus::Fixed,
+        editor_mode: EditorMode::Page,
     };
 
     let tx = conn.unchecked_transaction().map_err(|e| e.to_string())?;
