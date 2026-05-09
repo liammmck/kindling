@@ -3,7 +3,7 @@
 
   Allows users to configure and initiate project exports:
   - Format selection (Markdown, Longform, Word Document, or ePub)
-  - Scope selection based on context (project/chapter/scene)
+  - Scope selection based on context (project/section/topic)
   - Options like beat markers, synopsis, page breaks
   - Destination folder/file picker
 -->
@@ -607,7 +607,7 @@
                 ? 'text-text-primary'
                 : 'text-text-secondary'}">Longform</span
             >
-            <span class="text-xs text-text-secondary mt-0.5">Index + scenes</span>
+            <span class="text-xs text-text-secondary mt-0.5">Index + topics</span>
             {#if exportFormat === "longform"}
               <div class="absolute top-2 right-2 w-2 h-2 rounded-full bg-accent"></div>
             {/if}
@@ -730,7 +730,7 @@
             <label
               class="flex items-center justify-between p-3 bg-bg-card/50 rounded-lg cursor-pointer hover:bg-bg-card transition-colors"
             >
-              <span class="text-sm text-text-primary">Page breaks between chapters</span>
+              <span class="text-sm text-text-primary">Page breaks between sections</span>
               <div class="relative">
                 <input
                   type="checkbox"
@@ -764,7 +764,7 @@
             <label
               class="flex items-center justify-between p-3 bg-bg-card/50 rounded-lg cursor-pointer hover:bg-bg-card transition-colors"
             >
-              <span class="text-sm text-text-primary">Include scene synopses</span>
+              <span class="text-sm text-text-primary">Include topic synopses</span>
               <div class="relative">
                 <input type="checkbox" bind:checked={includeSynopsis} class="peer sr-only" />
                 <div
@@ -782,7 +782,7 @@
             <!-- Chapter Heading Style -->
             <div>
               <label for="chapter-heading-style" class="block text-xs text-text-secondary mb-1.5">
-                Chapter Heading
+                Section Heading
               </label>
               <div class="relative">
                 <select
@@ -806,7 +806,7 @@
             <!-- Scene Break Style -->
             <div>
               <label for="scene-break-style" class="block text-xs text-text-secondary mb-1.5">
-                Scene Break
+                Topic Break
               </label>
               <div class="relative">
                 <select

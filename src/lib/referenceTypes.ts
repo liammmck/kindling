@@ -1,10 +1,10 @@
-import { Building2, MapPin, Package, Target, User } from "lucide-svelte";
+import { BookOpen, Link, Package, Target, Building2 } from "lucide-svelte";
 import type { ReferenceTypeId } from "./types";
 
 export interface ReferenceTypeOption {
   id: ReferenceTypeId;
   label: string;
-  icon: typeof User;
+  icon: typeof BookOpen;
   accentClass: string;
   bgClass: string;
   isDefault: boolean;
@@ -13,23 +13,23 @@ export interface ReferenceTypeOption {
 export const REFERENCE_TYPE_OPTIONS: ReferenceTypeOption[] = [
   {
     id: "characters",
-    label: "Characters",
-    icon: User,
+    label: "Sources",
+    icon: BookOpen,
     accentClass: "text-accent",
     bgClass: "bg-accent/20",
     isDefault: true,
   },
   {
     id: "locations",
-    label: "Locations",
-    icon: MapPin,
+    label: "References",
+    icon: Link,
     accentClass: "text-spark-gold",
     bgClass: "bg-spark-gold/20",
     isDefault: true,
   },
   {
     id: "items",
-    label: "Items",
+    label: "Exhibits",
     icon: Package,
     accentClass: "text-success",
     bgClass: "bg-success/20",
@@ -37,7 +37,7 @@ export const REFERENCE_TYPE_OPTIONS: ReferenceTypeOption[] = [
   },
   {
     id: "objectives",
-    label: "Objectives",
+    label: "Arguments",
     icon: Target,
     accentClass: "text-warning",
     bgClass: "bg-warning/20",
@@ -45,7 +45,7 @@ export const REFERENCE_TYPE_OPTIONS: ReferenceTypeOption[] = [
   },
   {
     id: "organizations",
-    label: "Organizations",
+    label: "Theoretical Models",
     icon: Building2,
     accentClass: "text-text-secondary",
     bgClass: "bg-text-secondary/20",

@@ -855,7 +855,7 @@
   <!-- Header with tabs -->
   <div class="border-b border-bg-card">
     <div class="flex items-center justify-between px-4 py-2">
-      <h2 class="text-sm font-heading font-medium text-text-primary">References</h2>
+      <h2 class="text-sm font-heading font-medium text-text-primary">Citations & Sources</h2>
       <div class="flex items-center gap-1">
         <!-- Add Reference button -->
         <Tooltip
@@ -933,7 +933,7 @@
     </div>
   </div>
 
-  <!-- Suggested References -->
+  <!-- Suggested Citations -->
   {#if currentProject.currentScene && (suggestions.length > 0 || suggestionsLoading)}
     <div class="border-t border-bg-card">
       <button
@@ -1284,7 +1284,7 @@
       </div>
       <div class="p-4 space-y-3">
         <p class="text-sm text-text-secondary">
-          Choose which reference types appear in this project’s References panel.
+          Choose which citation types appear in this project's Citations & Sources panel.
         </p>
         <div class="space-y-2">
           {#each REFERENCE_TYPE_OPTIONS as option (option.id)}

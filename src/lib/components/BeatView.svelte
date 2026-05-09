@@ -18,7 +18,7 @@
   import { ui } from "../stores/ui.svelte";
   import ContextMenu from "./ContextMenu.svelte";
   import ConfirmDialog from "./ConfirmDialog.svelte";
-  import NovelEditor from "./NovelEditor.svelte";
+  import EssayEditor from "./EssayEditor.svelte";
 
   let {
     beats,
@@ -444,14 +444,14 @@
 
 <section>
   <div class="flex items-center justify-between mb-4">
-    <h2 class="text-sm font-semibold text-text-primary uppercase tracking-wide">Beats</h2>
+    <h2 class="text-sm font-semibold text-text-primary uppercase tracking-wide">Paragraphs</h2>
     {#if beats.length > 0 && !addingBeat && !isLocked}
       <button
         onclick={startAddingBeat}
         class="flex items-center gap-1 text-text-secondary hover:text-text-primary transition-colors text-sm"
       >
         <Plus class="w-3.5 h-3.5" />
-        <span>Add Beat</span>
+        <span>Add Paragraph</span>
       </button>
     {/if}
   </div>
@@ -556,7 +556,7 @@
                 class="p-1 text-text-secondary hover:text-text-primary transition-opacity shrink-0"
                 class:opacity-0={hoveredBeatId !== beat.id}
                 class:opacity-100={hoveredBeatId === beat.id}
-                aria-label="Beat menu"
+                aria-label="Paragraph menu"
               >
                 <MoreVertical class="w-3.5 h-3.5" />
               </button>
@@ -569,10 +569,10 @@
               class="border-t border-bg-card relative"
               style="min-height: 20rem; height: calc(100vh - 20rem); max-height: 50rem;"
             >
-              <NovelEditor
+              <EssayEditor
                 bind:this={novelEditorRef}
                 content={beat.prose || ""}
-                placeholder={isLocked ? "Scene is locked" : "Write your prose for this beat..."}
+                placeholder={isLocked ? "Topic is locked" : "Write your draft for this paragraph..."}
                 readonly={isLocked}
                 saveStatus={localSaveStatus}
                 onUpdate={handleEditorUpdate(beat.id)}
@@ -605,7 +605,7 @@
           class="w-full flex items-center justify-center gap-1.5 py-2 mt-2 text-text-secondary hover:text-text-primary text-sm transition-colors rounded-lg hover:bg-bg-card"
         >
           <Plus class="w-3.5 h-3.5" />
-          <span>Add Beat</span>
+          <span>Add Paragraph</span>
         </button>
       {/if}
     </div>
@@ -615,14 +615,14 @@
       class="w-full flex items-center justify-center gap-2 px-4 py-8 rounded-lg border border-dashed border-bg-card text-text-secondary hover:text-text-primary hover:border-accent transition-colors"
     >
       <Plus class="w-4 h-4" />
-      <span class="text-sm">Add Your First Beat</span>
+      <span class="text-sm">Add Your First Paragraph</span>
     </button>
   {:else if !addingBeat && isLocked}
     <div
       class="w-full flex items-center justify-center gap-2 px-4 py-8 rounded-lg border border-dashed border-bg-card text-text-secondary/50"
     >
       <Lock class="w-4 h-4" />
-      <span class="text-sm">Scene is locked</span>
+      <span class="text-sm">Topic is locked</span>
     </div>
   {/if}
 
@@ -632,7 +632,7 @@
       <input
         type="text"
         class="w-full bg-bg-card rounded-lg px-4 py-3 text-text-primary text-sm border border-accent focus:outline-none"
-        placeholder="Describe what happens in this beat..."
+        placeholder="Describe what this paragraph covers..."
         bind:value={newBeatContent}
         onkeydown={handleNewBeatKeydown}
         disabled={creatingBeat}
@@ -658,7 +658,7 @@
             {#if creatingBeat}
               <Loader2 class="w-4 h-4 animate-spin" />
             {:else}
-              Create Beat
+              Create Paragraph
             {/if}
           </button>
         </div>
@@ -678,8 +678,8 @@
 
 {#if deleteBeatDialog}
   <ConfirmDialog
-    title="Delete Beat"
-    message="Are you sure you want to delete this beat? Any prose will be merged into the previous beat."
+    title="Delete Paragraph"
+    message="Are you sure you want to delete this paragraph? Any draft text will be merged into the previous paragraph."
     onConfirm={executeDeleteBeat}
     onCancel={() => (deleteBeatDialog = null)}
   />

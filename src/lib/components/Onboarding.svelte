@@ -291,14 +291,14 @@
                 <div class="relative">
                   <div class="flex items-center gap-2 p-2 rounded bg-bg-panel">
                     <ChevronDown class="w-4 h-4 text-text-secondary" />
-                    <span class="text-text-primary font-medium">Chapter 1: The Beginning</span>
+                    <span class="text-text-primary font-medium">Section 1: Introduction</span>
                   </div>
                   <!-- Label -->
                   <div
                     class="absolute -right-2 top-1/2 -translate-y-1/2 translate-x-full flex items-center gap-2"
                   >
                     <div class="w-8 h-px bg-accent"></div>
-                    <span class="text-accent text-xs font-medium whitespace-nowrap">Chapter</span>
+                    <span class="text-accent text-xs font-medium whitespace-nowrap">Section</span>
                   </div>
                 </div>
 
@@ -489,7 +489,7 @@
                 <li class="flex items-start gap-2">
                   <span class="text-accent mt-0.5">•</span>
                   <span
-                    ><strong class="text-text-primary">Beats</strong> are the key story moments within
+                    ><strong class="text-text-primary">Paragraphs</strong> are the key points within
                     each scene</span
                   >
                 </li>
@@ -741,19 +741,19 @@
                     <span class="text-2xl font-semibold text-accent"
                       >{guidedPreview.chapter_count}</span
                     >
-                    <span class="text-text-secondary text-sm block">Chapters</span>
+                    <span class="text-text-secondary text-sm block">Sections</span>
                   </div>
                   <div class="bg-bg-card rounded-lg p-3">
                     <span class="text-2xl font-semibold text-accent"
                       >{guidedPreview.scene_count}</span
                     >
-                    <span class="text-text-secondary text-sm block">Scenes</span>
+                    <span class="text-text-secondary text-sm block">Topics</span>
                   </div>
                   <div class="bg-bg-card rounded-lg p-3">
                     <span class="text-2xl font-semibold text-accent"
                       >{guidedPreview.beat_count}</span
                     >
-                    <span class="text-text-secondary text-sm block">Beats</span>
+                    <span class="text-text-secondary text-sm block">Paragraphs</span>
                   </div>
                   {#if guidedPreview.character_count > 0}
                     <div class="bg-bg-card rounded-lg p-3">

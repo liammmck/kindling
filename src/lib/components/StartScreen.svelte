@@ -367,7 +367,7 @@
 {#if projectToDelete}
   <ConfirmDialog
     title="Delete Project"
-    message="Are you sure you want to delete &quot;{projectToDelete.name}&quot;? This will permanently delete the project and all its chapters, scenes, beats, and snapshots. This cannot be undone."
+    message="Are you sure you want to delete &quot;{projectToDelete.name}&quot;? This will permanently delete the project and all its sections, topics, paragraphs, and snapshots. This cannot be undone."
     confirmLabel="Delete Project"
     onConfirm={confirmDeleteProject}
     onCancel={cancelDeleteProject}

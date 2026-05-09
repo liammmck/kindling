@@ -143,7 +143,7 @@ pub fn create_menu(app: &AppHandle<Wry>) -> Result<(), Box<dyn std::error::Error
         .accelerator("CmdOrCtrl+Backslash")
         .build(app)?;
 
-    let toggle_references = MenuItemBuilder::new("Toggle References Panel")
+    let toggle_references = MenuItemBuilder::new("Toggle Citations Panel")
         .id(menu_ids::TOGGLE_REFERENCES)
         .accelerator("CmdOrCtrl+Shift+R")
         .build(app)?;

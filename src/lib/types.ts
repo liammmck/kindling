@@ -11,7 +11,7 @@
 export type SourceType = "Plottr" | "Markdown" | "YWriter" | "Scrivener" | "Longform" | "Blank";
 
 /** Project type: novel (default) or screenplay */
-export type ProjectType = "novel" | "screenplay";
+export type ProjectType = "novel" | "screenplay" | "essay";
 
 /** Rolling outline planning status for chapters and scenes */
 export type PlanningStatus = "fixed" | "flexible" | "undefined";

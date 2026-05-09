@@ -108,7 +108,7 @@
         <ul class="space-y-2 text-sm text-text-secondary">
           <li class="flex items-start gap-2">
             <ChevronDown class="w-4 h-4 text-accent shrink-0 mt-0.5" />
-            <span>Chapters group related scenes together</span>
+            <span>Sections group related topics together</span>
           </li>
           <li class="flex items-start gap-2">
             <FileText class="w-4 h-4 text-accent shrink-0 mt-0.5" />
@@ -141,7 +141,7 @@
           <li class="flex items-start gap-2">
             <Zap class="w-4 h-4 text-accent shrink-0 mt-0.5" />
             <span
-              ><strong class="text-text-primary">Beats</strong> — Key moments; click to expand and write
+              ><strong class="text-text-primary">Paragraphs</strong> — Key points; click to expand and write
               prose</span
             >
           </li>

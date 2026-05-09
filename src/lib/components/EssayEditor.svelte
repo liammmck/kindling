@@ -31,7 +31,7 @@
 
   let {
     content,
-    placeholder = "Write your prose...",
+    placeholder = "Write your draft...",
     readonly = false,
     saveStatus = "idle",
     onUpdate,
@@ -104,7 +104,7 @@
       editable: !readonly,
       editorProps: {
         attributes: {
-          class: "novel-editor-content",
+          class: "essay-editor-content",
           "data-placeholder": placeholder,
         },
       },
@@ -226,10 +226,10 @@
   }
 </script>
 
-<div class="novel-editor" class:readonly>
+<div class="essay-editor" class:readonly>
   <!-- Toolbar -->
   {#if !readonly}
-    <div class="novel-editor-toolbar">
+    <div class="essay-editor-toolbar">
       <div class="toolbar-group">
         <button
           type="button"
@@ -351,15 +351,15 @@
 
   <!-- Editor -->
   <!-- svelte-ignore a11y_no_static_element_interactions -->
-  <div class="novel-pages-container" onkeydown={handleKeydown}>
-    <div class="novel-page">
+  <div class="essay-pages-container" onkeydown={handleKeydown}>
+    <div class="essay-page">
       <div bind:this={editorElement} class="editor-wrapper" data-testid="beat-prose-editor"></div>
     </div>
   </div>
 </div>
 
 <style>
-  .novel-editor {
+  .essay-editor {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -367,12 +367,12 @@
     overflow: hidden;
   }
 
-  .novel-editor.readonly {
+  .essay-editor.readonly {
     opacity: 0.7;
   }
 
   /* Toolbar */
-  .novel-editor-toolbar {
+  .essay-editor-toolbar {
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -450,7 +450,7 @@
   }
 
   /* Pages container - scrollable area */
-  .novel-pages-container {
+  .essay-pages-container {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
@@ -462,7 +462,7 @@
   }
 
   /* Novel Page - the paper appearance */
-  .novel-page {
+  .essay-page {
     width: 26rem;
     min-height: 40rem;
     background: var(--color-prose-bg);
@@ -481,7 +481,7 @@
   }
 
   /* TipTap Editor Styles - Novel typography */
-  :global(.novel-editor-content) {
+  :global(.essay-editor-content) {
     outline: none;
     font-family: "Lora", Georgia, serif;
     font-size: 0.8125rem;
@@ -494,17 +494,11 @@
   }
 
   /* Paragraph styles */
-  :global(.novel-editor-content p) {
-    margin: 0;
-    text-indent: 1.5em;
+  :global(.essay-editor-content p) {
+    margin: 0 0 0.5em 0;
   }
 
-  :global(.novel-editor-content p:first-child),
-  :global(.novel-editor-content p.is-editor-empty:first-child) {
-    text-indent: 0;
-  }
-
-  :global(.novel-editor-content p.is-editor-empty:first-child::before) {
+  :global(.essay-editor-content p.is-editor-empty:first-child::before) {
     content: attr(data-placeholder);
     float: left;
     color: var(--color-prose-placeholder);
@@ -513,7 +507,7 @@
     font-style: italic;
   }
 
-  :global(.novel-editor-content blockquote) {
+  :global(.essay-editor-content blockquote) {
     margin: 1em 0;
     padding-left: 1em;
     border-left: 2px solid var(--color-prose-blockquote-border);
@@ -521,7 +515,7 @@
     color: var(--color-prose-blockquote-text);
   }
 
-  :global(.novel-editor-content code) {
+  :global(.essay-editor-content code) {
     font-family: "Courier New", Courier, monospace;
     background: var(--color-prose-code-bg);
     padding: 0.125em 0.25em;
@@ -529,15 +523,15 @@
     font-size: 0.9em;
   }
 
-  :global(.novel-editor-content strong) {
+  :global(.essay-editor-content strong) {
     font-weight: 600;
   }
 
-  :global(.novel-editor-content em) {
+  :global(.essay-editor-content em) {
     font-style: italic;
   }
 
-  :global(.novel-editor-content u) {
+  :global(.essay-editor-content u) {
     text-decoration: underline;
   }
 </style>

@@ -13,7 +13,7 @@
     partTitle,
     childChapterCount,
     partLabel = "Part",
-    chapterLabel = "Chapter",
+    chapterLabel = "Section",
     onDeletePartOnly,
     onDeletePartAndChapters,
     onCancel,

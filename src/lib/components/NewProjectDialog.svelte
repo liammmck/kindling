@@ -1,6 +1,6 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
-  import { BookOpen, Film, Layout, Loader2, X } from "lucide-svelte";
+  import { BookOpen, Layout, Loader2, X } from "lucide-svelte";
   import { currentProject } from "../stores/project.svelte";
   import { ui } from "../stores/ui.svelte";
   import type { Project, ProjectType, StoryTemplate } from "../types";
@@ -15,8 +15,8 @@
     onComplete?: (project: Project) => void;
   } = $props();
 
-  let projectType = $state<ProjectType>("novel");
-  let name = $state("My Project");
+  let projectType = $state<ProjectType>("essay");
+  let name = $state("My Essay");
   let targetLength = $state<"short" | "feature" | "long_feature">("feature");
   let selectedTemplate = $state<StoryTemplate | null>(null);
   let showTemplateBrowser = $state(false);
@@ -48,14 +48,7 @@
 
     try {
       let project: Project;
-      if (projectType === "screenplay") {
-        project = await invoke<Project>("create_screenplay_project", {
-          name: trimmedName,
-          target_length: targetLength,
-        });
-      } else {
-        project = await invoke<Project>("create_blank_project", { name: trimmedName });
-      }
+      project = await invoke<Project>("create_blank_project", { name: trimmedName });
 
       if (selectedTemplate) {
         await invoke("apply_template", {
@@ -129,25 +122,14 @@
         <div class="flex gap-2">
           <button
             type="button"
-            onclick={() => (projectType = "novel")}
+            onclick={() => (projectType = "essay")}
             class="flex-1 flex items-center gap-2 p-3 rounded-lg border-2 transition-colors {projectType ===
-            'novel'
+            'essay'
               ? 'border-accent bg-accent/10'
               : 'border-bg-card hover:border-accent/50'}"
           >
             <BookOpen class="w-5 h-5 text-accent" />
-            <span class="text-text-primary font-medium">Novel</span>
-          </button>
-          <button
-            type="button"
-            onclick={() => (projectType = "screenplay")}
-            class="flex-1 flex items-center gap-2 p-3 rounded-lg border-2 transition-colors {projectType ===
-            'screenplay'
-              ? 'border-accent bg-accent/10'
-              : 'border-bg-card hover:border-accent/50'}"
-          >
-            <Film class="w-5 h-5 text-accent" />
-            <span class="text-text-primary font-medium">Screenplay</span>
+            <span class="text-text-primary font-medium">Essay</span>
           </button>
         </div>
       </div>
@@ -167,18 +149,7 @@
         />
       </div>
 
-      {#if projectType === "screenplay"}
-        <div>
-          <label for="target-length" class="block text-sm font-medium text-text-secondary mb-2">
-            Target length
-          </label>
-          <select id="target-length" bind:value={targetLength} class={inputClass} disabled={saving}>
-            <option value="short">Short (&lt;30 pages)</option>
-            <option value="feature">Feature (90–120 pages)</option>
-            <option value="long_feature">Long feature (120–180 pages)</option>
-          </select>
-        </div>
-      {/if}
+
 
       <div>
         <label class="block text-sm font-medium text-text-secondary mb-2">Structure template</label>

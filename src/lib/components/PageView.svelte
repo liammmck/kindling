@@ -1,5 +1,5 @@
 <script lang="ts">
-  import NovelEditor from "./NovelEditor.svelte";
+  import EssayEditor from "./EssayEditor.svelte";
 
   let {
     content,
@@ -18,13 +18,13 @@
 
 <section>
   <div class="flex items-center justify-between mb-4">
-    <h2 class="text-sm font-semibold text-text-primary uppercase tracking-wide">Scene Prose</h2>
+    <h2 class="text-sm font-semibold text-text-primary uppercase tracking-wide">Draft</h2>
     <span class="text-xs text-text-secondary">{wordCount} words</span>
   </div>
   <div class="bg-bg-panel rounded-lg overflow-hidden" style="min-height: 50rem;">
-    <NovelEditor
+    <EssayEditor
       {content}
-      placeholder={readonly ? "Scene is locked" : "Write your scene prose here..."}
+      placeholder={readonly ? "Topic is locked" : "Write your draft here..."}
       {readonly}
       {saveStatus}
       {onUpdate}

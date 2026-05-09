@@ -573,7 +573,7 @@
     {@const scene = currentProject.currentScene}
     <div bind:this={scrollContainerRef} class="flex-1 overflow-y-auto">
       <div class="max-w-3xl mx-auto p-8">
-        <!-- Scene Title -->
+        <!-- Topic Title -->
         <header class="mb-8">
           <div class="flex items-center gap-3 flex-wrap">
             {#if isScreenplay && !isLocked}
@@ -613,7 +613,7 @@
           {/if}
           <div class="mt-4 flex flex-wrap gap-4">
             <div class="flex flex-col gap-1">
-              <label for="scene-type" class="text-xs text-text-secondary">Scene type</label>
+              <label for="scene-type" class="text-xs text-text-secondary">Topic type</label>
               <div class="relative">
                 <select
                   id="scene-type"
@@ -652,7 +652,7 @@
             </div>
             <div class="flex flex-col gap-1">
               <Tooltip
-                text="Controls how much structure this scene has: Undefined → Flexible → Fixed"
+                text="Controls how much structure this topic has: Undefined → Flexible → Fixed"
                 position="top"
               >
                 <label
@@ -719,7 +719,7 @@
           {/if}
         </header>
 
-        <!-- Scene tags -->
+        <!-- Topic tags -->
         {#if currentProject.value}
           <div class="mb-4 flex items-center gap-2">
             <span class="text-xs text-text-secondary shrink-0">Tags</span>
@@ -925,17 +925,17 @@
               class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-dashed border-bg-card text-text-secondary/50"
             >
               <Lock class="w-4 h-4" />
-              <span class="text-sm">Scene is locked</span>
+              <span class="text-sm">Topic is locked</span>
             </div>
           {/if}
         </section>
 
-        <!-- References (Fixed only) -->
+        <!-- Citations (Fixed only) -->
         {#if (scene.planning_status ?? "fixed") === "fixed"}
           <section class="mb-8">
             <div class="flex items-center justify-between mb-2">
               <h2 class="text-sm font-semibold text-text-primary uppercase tracking-wide">
-                References
+                Citations
               </h2>
               {#if sceneReferenceLoading}
                 <span class="text-xs text-text-secondary">Loading…</span>
@@ -1123,7 +1123,7 @@
           </section>
         {/if}
 
-        <!-- Page View (Fixed + Page mode) -->
+        <!-- Draft View (Fixed + Page mode) -->
         {#if (scene.planning_status ?? "fixed") === "fixed" && scene.editor_mode === "page"}
           <PageView
             content={pageProseContent}
@@ -1139,7 +1139,7 @@
           <BeatView bind:this={beatViewRef} beats={currentProject.beats} {isLocked} />
         {/if}
 
-        <!-- Scene Prose fallback (Fixed + Beat mode only, if exists and no beats) -->
+        <!-- Topic Draft fallback (Fixed + Beat mode only, if exists and no beats) -->
         {#if (scene.planning_status ?? "fixed") === "fixed" && scene.editor_mode !== "page" && scene.prose && currentProject.beats.length === 0}
           <section class="mt-8">
             <h2 class="text-sm font-semibold text-text-primary uppercase tracking-wide mb-4">
@@ -1169,8 +1169,8 @@
 
 {#if showSwitchToBeatConfirm}
   <ConfirmDialog
-    title="Switch to Beat View"
-    message="Any changes made in Page View will be synced back to the corresponding beats. Continue?"
+    title="Switch to Outline View"
+    message="Any changes made in Draft View will be synced back to the corresponding paragraphs. Continue?"
     confirmLabel="Switch"
     onConfirm={() => {
       showSwitchToBeatConfirm = false;

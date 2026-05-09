@@ -38,13 +38,13 @@
         <p>No changes were applied.</p>
       {:else}
         {#if summary.chapters_added > 0 || summary.chapters_updated > 0}
-          <p>Chapters: {summary.chapters_added} added, {summary.chapters_updated} updated</p>
+          <p>Sections: {summary.chapters_added} added, {summary.chapters_updated} updated</p>
         {/if}
         {#if summary.scenes_added > 0 || summary.scenes_updated > 0}
-          <p>Scenes: {summary.scenes_added} added, {summary.scenes_updated} updated</p>
+          <p>Topics: {summary.scenes_added} added, {summary.scenes_updated} updated</p>
         {/if}
         {#if summary.beats_added > 0 || summary.beats_updated > 0}
-          <p>Beats: {summary.beats_added} added, {summary.beats_updated} updated</p>
+          <p>Paragraphs: {summary.beats_added} added, {summary.beats_updated} updated</p>
         {/if}
         {#if summary.prose_preserved > 0}
           <p class="text-text-secondary/80 italic">

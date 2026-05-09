@@ -28,7 +28,7 @@ export const COMMAND_DEFS: CommandDef[] = [
     label: "Export project",
     shortcut: "⌘E",
     category: "File",
-    keywords: ["export", "docx", "manuscript"],
+    keywords: ["export", "docx", "markdown"],
     requiresProject: true,
   },
   {
@@ -116,10 +116,10 @@ export const COMMAND_DEFS: CommandDef[] = [
   },
   {
     id: "toggle_references",
-    label: "Toggle references panel",
+    label: "Toggle citations panel",
     shortcut: "⌘⇧R",
     category: "View",
-    keywords: ["references", "characters", "panel", "collapse", "expand"],
+    keywords: ["citations", "sources", "panel", "collapse", "expand"],
     requiresProject: true,
   },
   {
@@ -132,16 +132,16 @@ export const COMMAND_DEFS: CommandDef[] = [
   },
   {
     id: "toggle_editor_mode",
-    label: "Toggle beat/page view",
+    label: "Toggle outline/draft view",
     shortcut: "⌘⇧V",
     category: "View",
-    keywords: ["page", "beat", "view", "mode", "prose", "editor"],
+    keywords: ["outline", "draft", "view", "mode", "editor"],
     requiresProject: true,
   },
   // Project - Detection
   {
     id: "detect_references",
-    label: "Detect references in scene",
+    label: "Detect citations in topic",
     shortcut: "",
     category: "Project",
     keywords: ["detect", "references", "scan", "suggest", "smart"],
@@ -149,7 +149,7 @@ export const COMMAND_DEFS: CommandDef[] = [
   },
   {
     id: "detect_all_references",
-    label: "Detect references in all scenes",
+    label: "Detect citations in all topics",
     shortcut: "",
     category: "Project",
     keywords: ["detect", "all", "references", "scan", "suggest", "bulk"],

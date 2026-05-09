@@ -1,7 +1,7 @@
 <!--
   Sidebar.svelte - Main navigation sidebar
 
-  Displays the project chapter/scene tree with:
+  Displays the project section/topic tree with:
   - Drag-and-drop reordering
   - Context menus for actions
   - Create/delete functionality
@@ -345,11 +345,9 @@
     }
   }
 
-  // Labels for Part/Chapter vs Act/Sequence (screenplay projects)
-  const partLabel = $derived(currentProject.value?.project_type === "screenplay" ? "Act" : "Part");
-  const chapterLabel = $derived(
-    currentProject.value?.project_type === "screenplay" ? "Sequence" : "Chapter"
-  );
+  // Labels for Part/Section
+  const partLabel = $derived("Part");
+  const chapterLabel = $derived("Section");
 
   // Chapter synopsis editing
   let editingChapterSynopsisId: string | null = $state(null);
@@ -694,7 +692,7 @@
         type: "chapter",
         id: chapter.id,
         title: chapter.title,
-        message: `This will delete "${chapter.title}" with ${counts.scene_count} scene${counts.scene_count !== 1 ? "s" : ""} and ${counts.beat_count} beat${counts.beat_count !== 1 ? "s" : ""}.`,
+        message: `This will delete "${chapter.title}" with ${counts.scene_count} topic${counts.scene_count !== 1 ? "s" : ""} and ${counts.beat_count} paragraph${counts.beat_count !== 1 ? "s" : ""}.`,
       };
     } catch (e) {
       console.error("Failed to get content counts:", e);
@@ -722,7 +720,7 @@
         type: "scene",
         id: scene.id,
         title: scene.title,
-        message: `This will delete "${scene.title}" with ${beatCount} beat${beatCount !== 1 ? "s" : ""}.`,
+        message: `This will delete "${scene.title}" with ${beatCount} paragraph${beatCount !== 1 ? "s" : ""}.`,
       };
     } catch (e) {
       console.error("Failed to get beat count:", e);
@@ -1652,7 +1650,7 @@
                               class="w-full flex items-center gap-2 px-2 py-1 rounded text-xs text-text-secondary hover:text-text-primary hover:bg-bg-card transition-colors"
                             >
                               <Plus class="w-3 h-3" />
-                              New Scene
+                              New Topic
                             </button>
                           {/if}
 
@@ -1985,7 +1983,7 @@
                               class="w-full flex items-center gap-2 px-2 py-1 rounded text-xs text-text-secondary hover:text-text-primary hover:bg-bg-card transition-colors"
                             >
                               <Plus class="w-3 h-3" />
-                              New Scene
+                              New Topic
                             </button>
                           {/if}
 
@@ -2105,7 +2103,7 @@
 <!-- Delete Confirmation Dialog -->
 {#if deleteDialog}
   <ConfirmDialog
-    title="Delete {deleteDialog.type === 'chapter' ? 'Chapter' : 'Scene'}"
+    title="Delete {deleteDialog.type === 'chapter' ? 'Section' : 'Topic'}"
     message={deleteDialog.message}
     onConfirm={executeDelete}
     onCancel={() => (deleteDialog = null)}
@@ -2143,7 +2141,7 @@
 <!-- Rename Dialog -->
 {#if renameDialog}
   <RenameDialog
-    title="Rename {renameDialog.type === 'chapter' ? chapterLabel : 'Scene'}"
+    title="Rename {renameDialog.type === 'chapter' ? chapterLabel : 'Topic'}"
     currentName={renameDialog.title}
     onSave={(newName) => handleRename(renameDialog!.type, renameDialog!.id, newName)}
     onClose={() => (renameDialog = null)}
